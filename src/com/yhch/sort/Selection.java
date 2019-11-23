@@ -30,8 +30,6 @@ public class Selection {
 
     }
 
-
-
     //遍历输出数组
     public static void show(int [] arr){
         for (int item:arr){
