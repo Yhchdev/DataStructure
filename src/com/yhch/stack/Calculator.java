@@ -1,9 +1,10 @@
 package com.yhch.stack;
 
+// 中缀表达式
 public class Calculator {
 
     public static void main(String[] args) {
-        String exp = "4*3+2*2*3-1"; //12+12-1 23
+        String exp = "100*3+2*2*3-10"; //41
         int num1 = 0;
         int num2 = 0;
         char ch = ' ';
@@ -15,6 +16,8 @@ public class Calculator {
         ArrayStack2 numstack = new ArrayStack2(10);
         // 符号栈
         ArrayStack2 operstack = new ArrayStack2(10);
+        // 拼接多位数
+        StringBuilder keepNum = new StringBuilder();
 
         while (true){
             ch = exp.substring(index,index+1).charAt(0);
@@ -36,7 +39,21 @@ public class Calculator {
                     operstack.push(ch);
                 }
             }else {
-                numstack.push(ch-48); // "1+3" '1' 字符1(49)  and 1
+                //numstack.push(ch-48); // "1+3" '1' 字符1(49)  and 1
+                keepNum.append(ch);
+                //针对多位数的情况
+                // 如果已经是最后一位了 那么直接入数栈
+                if(index == exp.length()-1){
+                    numstack.push(Integer.parseInt(keepNum.toString()));
+                }else {
+                    // 向后探查一位 如果是符号  则前面拼接的入数栈
+                    if(operstack.isOper(exp.substring(index+1,index+2).charAt(0))){
+                        numstack.push(Integer.parseInt(keepNum.toString()));
+                        // 清空之前拼接的数字
+                        keepNum.setLength(0);
+                    }
+
+                }
             }
             index++;
             if(index>=exp.length()){
