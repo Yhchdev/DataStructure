@@ -80,8 +80,6 @@ public class Maze {
         }
     }
 
-
-
     // 输出地图
     public static void getMap(int[][] map){
         for(int i=0;i<8;i++){
